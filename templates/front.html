@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Encryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            padding: 0 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+        label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        input, select {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100%;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .toggle-buttons {
+            margin: 20px 0;
+        }
+        .form-container {
+            display: none;
+        }
+        .form-container.active {
+            display: block;
+        }
+    </style>
+    <script>
+        function toggleForms(formType) {
+            const encryptForm = document.getElementById('encrypt-form');
+            const decryptForm = document.getElementById('decrypt-form');
+            
+            if (formType === 'encrypt') {
+                encryptForm.classList.add('active');
+                decryptForm.classList.remove('active');
+            } else {
+                decryptForm.classList.add('active');
+                encryptForm.classList.remove('active');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Welcome, {{ username }}</h1>
+
+    <div class="toggle-buttons">
+        <button onclick="toggleForms('encrypt')">Encrypt File</button>
+        <button onclick="toggleForms('decrypt')">Decrypt File</button>
+    </div>
+
+    <div id="encrypt-form" class="form-container active">
+        <h2>Encrypt File</h2>
+        <form method="post" action="/encrypt" enctype="multipart/form-data">
+            <label>Upload File:</label>
+            <input type="file" name="file" required>
+            <label>Encryption Key:</label>
+            <input type="text" name="key" required>
+            <label>Select Encryption Algorithm:</label>
+            <select name="encryption_type" required>
+                <option value="AES">AES</option>
+                <option value="DES">DES</option>
+                <option value="RSA">RSA</option>
+            </select>
+            <button type="submit">Encrypt</button>
+        </form>
+    </div>
+
+    <div id="decrypt-form" class="form-container">
+        <h2>Decrypt File</h2>
+        <form method="post" action="/decrypt" enctype="multipart/form-data">
+            <label>Upload Encrypted File:</label>
+            <input type="file" name="file" required>
+            <label>Decryption Key:</label>
+            <input type="text" name="key" required>
+            <label>Select Decryption Algorithm:</label>
+            <select name="encryption_type" required>
+                <option value="AES">AES</option>
+                <option value="DES">DES</option>
+                <option value="RSA">RSA</option>
+            </select>
+            <button type="submit">Decrypt</button>
+        </form>
+    </div>
+
+    <a href="/logout">Logout</a>
+</body>
+</html>
